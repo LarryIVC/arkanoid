@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arkanoid on JavaScript</title>
+    <style>
+      body {
+        background: #111;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        background: #000;
+        border: 1px solid #fff;
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+
+    <script>
+      const canvas = document.querySelector("canvas")
+      const ctx = canvas.getContext("2d") // webgl, webgl2, 2d, bitmaprenderer, webaudio, audio, etc.
+      canvas.width = 448
+      canvas.height = 400
+
+      // variables del juego
+      let counter = 0
+      // variables de la pelota
+      const ballRadius = 6
+      let ballX = canvas.width / 2
+      let ballY = canvas.height - 30
+      let dx = 2
+      let dy = -2
+
+      // variables del jugador
+      const playerHeight = 10
+      const playerWidth = 50
+
+      let playerX = (canvas.width - playerWidth) / 2
+      let playerY = canvas.height - playerHeight - 10
+
+      // funciones del juego
+
+      function drawBall() {
+        ctx.beginPath()
+        ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2)
+        ctx.fillStyle = "#fee"
+        ctx.fill()
+        ctx.closePath()
+      }
+      function drawPlayer() {
+        ctx.fillStyle = "#fce"
+        ctx.fillRect(playerX, playerY, playerWidth, playerHeight)
+      }
+      function drawBricks() {}
+
+      function collisionDetect() {}
+      function moveBall() {
+        // laterales
+        if (
+          ballX + dx > canvas.width - ballRadius || // derecho
+          ballX + dx < ballRadius // izquierdo
+        ) {
+          dx = -dx
+        }
+
+        // superior
+
+        if (ballY + dy < ballRadius) {
+          dy = -dy
+        }
+
+        // abajo
+        if (ballY + dy > canvas.height - ballRadius) {
+          console.log("Game Over")
+          document.location.reload()
+          // window.document.location.reload()
+        }
+
+        ballX += dx
+        ballY += dy
+      }
+      function movePlayer() {}
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+      }
+
+      function draw() {
+        clearCanvas()
+        // Dibujar los elementos del juego
+
+        drawBall()
+        drawPlayer()
+        drawBricks()
+        // drawScore();
+        // drawLives();
+
+        // Detectar colisiones
+        collisionDetect()
+        moveBall()
+        movePlayer()
+
+        window.requestAnimationFrame(draw)
+      }
+
+      draw()
+    </script>
+  </body>
+</html>
