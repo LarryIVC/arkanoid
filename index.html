@@ -11,7 +11,7 @@
       canvas {
         display: block;
         margin: 0 auto;
-        background: url('./bkg.png') repeat;
+        background: url("./bkg.png") repeat;
         border: 1px solid #fff;
         border-bottom: none;
       }
@@ -19,11 +19,11 @@
   </head>
   <body>
     <canvas></canvas>
-    <img src="./bricks.png" alt="Bricks sprite" hidden id="bricks"/>
-    <img src="./sprite.png" alt="Sprite arkanoid" hidden id="sprite"/>
+    <img src="./bricks.png" alt="Bricks sprite" hidden id="bricks" />
+    <img src="./sprite.png" alt="Sprite arkanoid" hidden id="sprite" />
     <script>
       const canvas = document.querySelector("canvas")
-      const ctx = canvas.getContext("2d") 
+      const ctx = canvas.getContext("2d")
       const bricks = document.querySelector("#bricks")
       const sprite = document.querySelector("#sprite")
 
@@ -32,7 +32,28 @@
 
       // variables del juego
       // variables del ladrillo
-      
+      const brickRowCount = 6
+      const brickColumnCount = 13
+      const brickWidth = 30
+      const brickHeight = 14
+      const brickPadding = 2
+      const brickOffsetTop = 80
+      const brickOffsetLeft = 20
+      const bricksArray = []
+
+      const BRICK_STATUS = { NORMAL: 1, DESTROYED: 0 }
+
+      for(let c=0; c<brickColumnCount; c++) {
+        bricksArray[c] = []
+        for(let r=0; r<brickRowCount; r++) {
+          const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft
+          const brickY = r * (brickHeight + brickPadding) + brickOffsetTop
+          const random = Math.floor(Math.random() * 8)
+          bricksArray[c][r] = { x: brickX, y: brickY, status: BRICK_STATUS.NORMAL, color: random
+        }
+      }
+
+
       // variables de la pelota
       const ballRadius = 6
       let ballX = canvas.width / 2
@@ -63,7 +84,7 @@
       function drawPlayer() {
         ctx.fillStyle = "#fce"
         // ctx.fillRect(playerX, playerY, playerWidth, playerHeight)
-        
+
         ctx.drawImage(
           sprite,
           29,
